@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: node-app
+    ports:
+      - "3000:3000" # Пробрасываем порт 3000
+    environment:
+      - PG_HOST=localhost # Указываем имя сервиса базы данных
+      - PG_PORT=5432
+      - PG_USER=blog_user
+      - PG_PASSWORD=Astana2025
+      - PG_DATABASE=blog
+    depends_on:
+      - db # Указываем корректное имя сервиса базы данных
+    networks:
+      - mynetwork
+
+  db:
+    image: postgres:latest
+    container_name: postgres-db
+    environment:
+      - POSTGRES_USER=blog_user
+      - POSTGRES_PASSWORD=Astana2025
+      - POSTGRES_DB=blog
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge
+
+volumes:
+  postgres-data:
