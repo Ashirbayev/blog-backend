@@ -7,6 +7,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 # Устанавливаем зависимости
+RUN npm cache clean --force
 RUN npm install
 
 # Копируем весь проект
